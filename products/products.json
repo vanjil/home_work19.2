@@ -1,0 +1,32 @@
+[
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "удочка",
+      "price": 1000.00
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "крючок",
+      "price": 200.00
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 1,
+    "fields": {
+      "name": "рыбалка"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 2,
+    "fields": {
+      "name": "продукты"
+    }
+  }
+]
