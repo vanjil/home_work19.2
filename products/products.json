@@ -4,6 +4,8 @@
     "pk": 1,
     "fields": {
       "name": "удочка",
+      "description": "Описание удочки",
+      "category": 1,
       "price": 1000.00
     }
   },
@@ -12,21 +14,29 @@
     "pk": 2,
     "fields": {
       "name": "крючок",
+      "description": "Описание крючка",
+      "category": 1,
       "price": 200.00
     }
   },
   {
-    "model": "products.category",
-    "pk": 1,
+    "model": "products.product",
+    "pk": 3,
     "fields": {
-      "name": "рыбалка"
+      "name": "молоко",
+      "description": "Описание молока",
+      "category": 2,
+      "price": 50.00
     }
   },
   {
-    "model": "products.category",
-    "pk": 2,
+    "model": "products.product",
+    "pk": 4,
     "fields": {
-      "name": "продукты"
+      "name": "ржаной хлеб",
+      "description": "Описание ржаного хлеба",
+      "category": 2,
+      "price": 30.00
     }
   }
 ]

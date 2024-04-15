@@ -1,0 +1,18 @@
+[
+  {
+    "model": "products.category",
+    "pk": 1,
+    "fields": {
+      "name": "рыбалка",
+      "description": "Описание рыбалки"
+    }
+  },
+  {
+    "model": "products.category",
+    "pk": 2,
+    "fields": {
+      "name": "продукты",
+      "description": "Описание продуктов"
+    }
+  }
+]
