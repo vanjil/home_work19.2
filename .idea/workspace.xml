@@ -4,7 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91f0c8bb-0708-40a5-9085-295a667556a4" name="Changes" comment="все работает" />
+    <list default="true" id="91f0c8bb-0708-40a5-9085-295a667556a4" name="Changes" comment="все работает">
+      <change afterPath="$PROJECT_DIR$/products/templates/products/product_confirm_delete.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/products/templates/products/product_form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/products/templates/products/product_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/product_photos/Screen_Shot_2024-04-24_at_12.12.28_PM_O2XUQ8p.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/product_photos/белыи_классик.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/product_photos/бизнес_джет.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/product_photos/военныи.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/product_photos/оранжевыи.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/product_photos/современныи.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/myproject/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/myproject/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/products/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/products/templates/products/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/templates/includes/inc_menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/products/templates/products/includes/inc_menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/templates/products_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/products/templates/products/product_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/templates/products_list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/products/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/products/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,8 +32,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -40,11 +59,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/products/templates/products" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/myproject" />
       <recent name="$PROJECT_DIR$/products/static" />
       <recent name="$PROJECT_DIR$/products" />
-      <recent name="$PROJECT_DIR$/media" />
     </key>
   </component>
   <component name="RunManager" selected="Python.runserver">
@@ -163,15 +182,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="все работает" />
     <option name="LAST_COMMIT_MESSAGE" value="все работает" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/myproject/urls.py</url>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
