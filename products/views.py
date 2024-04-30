@@ -20,14 +20,14 @@ class ProductsDetailView(DetailView):
 class ProductsCreateView(CreateView):
     model = Product
     fields = ['name', 'description', 'price', 'category', 'photo', 'year']
-    success_url = reverse_lazy(' products:products_list')
+    success_url = reverse_lazy('products:products_list')
 
 
 class ProductsUpdateView(UpdateView):
     model = Product
     fields = ['name', 'description', 'price', 'category', 'photo', 'year']
-    success_url = reverse_lazy(' products:products_list')
+    success_url = reverse_lazy('products:products_list')
 
 class ProductsDeleteView(DeleteView):
     model = Product
-    success_url = reverse_lazy(' products:products_list')
+    success_url = reverse_lazy('products:products_list')
