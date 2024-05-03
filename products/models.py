@@ -2,12 +2,14 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
 
     def __str__(self):
         return self.name
+
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -18,7 +20,8 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     year = models.IntegerField(default=None, null=True)
-    views_counter = models.PositiveIntegerField(default=0, verbose_name='Количество просмотров', help_text='Укажите количество просмотров')
+    views_counter = models.PositiveIntegerField(default=0, verbose_name='Количество просмотров',
+                                                help_text='Укажите количество просмотров')
     published = models.BooleanField(default=False)
     slug = models.SlugField(unique=True, default='')
     published_at = models.DateTimeField(default=timezone.now)
@@ -36,6 +39,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=200)

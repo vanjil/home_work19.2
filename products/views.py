@@ -1,4 +1,6 @@
+from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Product
 from django.utils.text import slugify
@@ -48,3 +50,17 @@ class ProductsUpdateView(UpdateView):
 class ProductsDeleteView(DeleteView):
     model = Product
     success_url = reverse_lazy('products:products_list')
+
+
+class HomeView(View):
+    template_name = 'products/home.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class ContactView(View):
+    template_name = 'products/contact.html'
+
+    def get(self, request):
+        return render(request, self.template_name)

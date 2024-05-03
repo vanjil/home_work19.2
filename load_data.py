@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from products.models import Category, Product
 import json
 
+
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
