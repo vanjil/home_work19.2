@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('products.urls')),  # добавляем маршрут для корневого URL-адреса
     path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT}),
+    path('blog/', include('blog.urls')),
 ]
 
 # Добавляем правила для обработки медиафайлов
