@@ -10,12 +10,15 @@
                     <img src="{{ product.photo | media_filter }}" alt="{{ product.name }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ product.name }}</h5>
+                        {% if product.current_version %}
+                            <p class="card-text">Текущая версия: {{ product.current_version.version_name }} ({{ product.current_version.version_number }})</p>
+                        {% endif %}
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a class="btn btn-primary rounded" href="{% url 'products:products_detail' product.pk %}" role="button">Посмотреть</a>
-                                <span style="margin: 0 5px;"></span> <!-- Добавлено расстояние -->
+                                <span style="margin: 0 5px;"></span>
                                 <a class="btn btn-primary rounded" href="{% url 'products:products_update' product.pk %}" role="button">Редактировать</a>
-                                <span style="margin: 0 5px;"></span> <!-- Добавлено расстояние -->
+                                <span style="margin: 0 5px;"></span>
                                 <a class="btn btn-primary rounded" href="{% url 'products:products_delete' product.pk %}" role="button">Удалить</a>
                             </div>
                         </div>
@@ -25,6 +28,5 @@
             {% endfor %}
         </div>
     </div>
-</div>
 </div>
 {% endblock %}

@@ -1,18 +1,23 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views import View
+from .forms import ProductForm
 from .models import Product
 from django.utils.text import slugify
 
-
 class ProductsListView(ListView):
     model = Product
+    template_name = 'products/product_list.html'
 
-    def get_queryset(self):
-        # Фильтруем только опубликованные товары
-        return Product.objects.filter(published=True)
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = Product.objects.all()
+        for product in products:
+            current_version = product.versions.filter(is_current=True).first()
+            product.current_version = current_version
+        context['object_list'] = products
+        return context
 
 class ProductsDetailView(DetailView):
     model = Product
@@ -23,41 +28,33 @@ class ProductsDetailView(DetailView):
         self.object.save()
         return self.object
 
-
 class ProductsCreateView(CreateView):
     model = Product
-    fields = ['name', 'year', 'price', 'category', 'photo', 'description']
+    form_class = ProductForm
     success_url = reverse_lazy('products:products_list')
 
     def form_valid(self, form):
-        # Получаем данные из формы
         instance = form.save(commit=False)
-        # Формируем slug из имени товара
         instance.slug = slugify(instance.name)
         instance.save()
         return super().form_valid(form)
 
-
 class ProductsUpdateView(UpdateView):
     model = Product
-    fields = ['name', 'year', 'price', 'category', 'photo', 'description']
+    form_class = ProductForm
 
     def get_success_url(self):
-        # Возвращаем URL просмотра обновленного товара
         return reverse_lazy('products:products_detail', kwargs={'pk': self.object.pk})
-
 
 class ProductsDeleteView(DeleteView):
     model = Product
     success_url = reverse_lazy('products:products_list')
-
 
 class HomeView(View):
     template_name = 'products/home.html'
 
     def get(self, request):
         return render(request, self.template_name)
-
 
 class ContactView(View):
     template_name = 'products/contact.html'
