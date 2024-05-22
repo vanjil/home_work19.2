@@ -23,6 +23,7 @@ class Product(models.Model):
     published = models.BooleanField(default=False)
     slug = models.SlugField(unique=True, default='', blank=True)
     published_at = models.DateTimeField(default=timezone.now)
+    available = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.slug:
