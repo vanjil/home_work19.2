@@ -170,3 +170,4 @@ __pycache__/
 venv/
 env/
 .idea/
+get-pip.py
