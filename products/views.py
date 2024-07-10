@@ -5,6 +5,7 @@ from django.views import View
 from .forms import ProductForm
 from .models import Product
 from django.utils.text import slugify
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class ProductsListView(ListView):
     model = Product
@@ -28,7 +29,7 @@ class ProductsDetailView(DetailView):
         self.object.save()
         return self.object
 
-class ProductsCreateView(CreateView):
+class ProductsCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('products:products_list')
@@ -36,17 +37,18 @@ class ProductsCreateView(CreateView):
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.slug = slugify(instance.name)
+        instance.owner = self.request.user
         instance.save()
         return super().form_valid(form)
 
-class ProductsUpdateView(UpdateView):
+class ProductsUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
 
     def get_success_url(self):
         return reverse_lazy('products:products_detail', kwargs={'pk': self.object.pk})
 
-class ProductsDeleteView(DeleteView):
+class ProductsDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('products:products_list')
 

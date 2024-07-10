@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from django.conf import settings
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -16,12 +17,13 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=3)
     photo = models.ImageField(upload_to='product_photos', default='default_photo.jpg')
     created_at = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='products', null=True)
     updated_at = models.DateTimeField(auto_now=True)
     year = models.IntegerField(default=None, null=True)
     views_counter = models.PositiveIntegerField(default=0, verbose_name='Количество просмотров',
                                                 help_text='Укажите количество просмотров')
     published = models.BooleanField(default=False)
-    slug = models.SlugField(unique=True, default='', blank=True)
+    slug = models.SlugField(unique=True, blank=True)
     published_at = models.DateTimeField(default=timezone.now)
     available = models.BooleanField(default=False)
 
@@ -47,19 +49,3 @@ class Version(models.Model):
 
     def __str__(self):
         return f"{self.version_name} ({self.version_number})"
-
-class BlogPost(models.Model):
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True)
-    content = models.TextField()
-    preview = models.ImageField(upload_to='blog_previews/')
-    created_at = models.DateTimeField(default=timezone.now)
-    published = models.BooleanField(default=False)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.title
