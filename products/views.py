@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
@@ -6,6 +6,7 @@ from .forms import ProductForm
 from .models import Product
 from django.utils.text import slugify
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 
 class ProductsListView(ListView):
     model = Product
@@ -45,12 +46,24 @@ class ProductsUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.owner != self.request.user and not self.request.user.has_perm('app_name.can_change_any_description'):
+            raise PermissionDenied
+        return obj
+
     def get_success_url(self):
         return reverse_lazy('products:products_detail', kwargs={'pk': self.object.pk})
 
 class ProductsDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('products:products_list')
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if obj.owner != self.request.user and not self.request.user.has_perm('app_name.can_change_any_description'):
+            raise PermissionDenied
+        return obj
 
 class HomeView(View):
     template_name = 'products/home.html'

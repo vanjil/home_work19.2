@@ -20,8 +20,7 @@ class Product(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='products', null=True)
     updated_at = models.DateTimeField(auto_now=True)
     year = models.IntegerField(default=None, null=True)
-    views_counter = models.PositiveIntegerField(default=0, verbose_name='Количество просмотров',
-                                                help_text='Укажите количество просмотров')
+    views_counter = models.PositiveIntegerField(default=0, verbose_name='Количество просмотров', help_text='Укажите количество просмотров')
     published = models.BooleanField(default=False)
     slug = models.SlugField(unique=True, blank=True)
     published_at = models.DateTimeField(default=timezone.now)
@@ -30,8 +29,6 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
-            # Проверяем, есть ли в базе данных объект с таким же slug
-            # Если есть, добавляем к slug уникальный суффикс
             i = 1
             while Product.objects.filter(slug=self.slug).exists():
                 self.slug = slugify(f"{self.name}-{i}")
@@ -40,6 +37,14 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        permissions = [
+            ("can_unpublish_product", "Can unpublish product"),
+            ("can_change_any_description", "Can change any description"),
+            ("can_change_any_category", "Can change any category"),
+        ]
+
 
 class Version(models.Model):
     product = models.ForeignKey(Product, related_name='versions', on_delete=models.CASCADE)
