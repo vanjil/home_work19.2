@@ -171,3 +171,5 @@ venv/
 env/
 .idea/
 get-pip.py
+myvenv/
+
