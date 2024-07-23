@@ -8,10 +8,15 @@ from django.utils.text import slugify
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
+from .services import get_product_from_cache
+
 
 class ProductsListView(ListView):
     model = Product
     template_name = 'products/product_list.html'
+
+    def get_queryset(self):
+        return get_product_from_cache()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

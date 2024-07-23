@@ -172,4 +172,5 @@ env/
 .idea/
 get-pip.py
 myvenv/
-
+myenv
+.env
