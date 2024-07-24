@@ -2,9 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-
 load_dotenv()
-os.environ['USER'] = 'postgres'
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -66,13 +64,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv('NAME'),
-        'USER': os.getenv('USER'),
-        'PASSWORD': os.getenv('PASSWORD'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('HOST'),
         'PORT': os.getenv('PORT')
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -123,8 +120,8 @@ EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', False) == 'True'
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-CACHE_ENABLED = True  # Это контролирует, включено ли кеширование
-REDIS_URL = os.getenv('REDIS_URL')  # Получаем URL для подключения к Redis из .env
+CACHE_ENABLED = True
+REDIS_URL = os.getenv('REDIS_URL')
 
 if CACHE_ENABLED:
     CACHES = {
