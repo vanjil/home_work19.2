@@ -1,0 +1,39 @@
+{% extends 'products/base.html' %}
+{% load crispy_forms_tags %}
+{% load my_tags %}
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img src="{{ announcement.photo | media_filter }}"> <!-- Изменено на announcement -->
+                    <div class="card-body">
+                        <h5 class="card-title">Название: {{ object.title }}</h5> <!-- Изменено на title -->
+                        <h5 class="card-title">Цена: ${{ object.price }}</h5>
+                        <h5 class="card-title">Год выпуска: {{ object.year }}</h5>
+                        <p class="card-text">{{ announcement.description | truncatechars:100 }}</p> <!-- Изменено на announcement -->
+
+                        <!-- Добавляем проверку на аутентификацию -->
+                        {% if user.is_authenticated %}
+                            <p class="card-text">Контактная информация: {{ announcement.contact_info }}</p>
+                        {% else %}
+                            <p class="card-text">Для просмотра контактной информации необходимо <a href="{% url 'users:login' %}">войти</a> или <a href="{% url 'users:register' %}">зарегистрироваться</a>.</p>
+                        {% endif %}
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a class="btn btn-primary rounded me-2" href="{% url 'products:announcement_list' %}" role="button">Назад</a> <!-- Изменено на announcement_list -->
+                                {% if announcement.owner == user or perms.app_name.can_change_any_description %}
+                                    <a class="btn btn-primary rounded me-2" href="{% url 'products:announcement_update' announcement.pk %}" role="button">Редактировать</a> <!-- Изменено на announcement_update -->
+                                    <a class="btn btn-danger rounded" href="{% url 'products:announcement_delete' announcement.pk %}" role="button">Удалить</a> <!-- Оставлен без отступа -->
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

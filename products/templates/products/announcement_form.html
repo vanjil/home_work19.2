@@ -6,15 +6,19 @@
         <div class="col-6">
             <form class="row" method="post" enctype="multipart/form-data">
                 <div class="card">
-                    <h5 class="card-title">Уверенны, что хотите удалить? {{object.name}}</h5>
                     <div class="card-body">
                         {% csrf_token %}
+                        {{ form.as_p }}
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Удалить
+                        <button type="submit" class="btn btn-primary">
+                            {% if object %}
+                            Сохранить
+                            {% else %}
+                            Создать
+                            {% endif %}
                         </button>
-                        <a class="btn btn-primary" href="{% url 'products:products_list' %}"
-                           role="button">Отменить</a>
+                        <a class="btn btn-primary" href="{% url 'products:announcement_list' %}" role="button">Отменить</a>
                     </div>
                 </div>
             </form>

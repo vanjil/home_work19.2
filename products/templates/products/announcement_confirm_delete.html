@@ -1,0 +1,22 @@
+{% extends 'products/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Подтверждение удаления</h5>
+                    <p class="card-text">Вы уверены, что хотите удалить объявление "{{ object.title }}"?</p>
+                </div>
+                <div class="card-footer">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Удалить</button> <!-- Кнопка для подтверждения удаления -->
+                        <a class="btn btn-secondary" href="{% url 'products:announcement_list' %}">Отменить</a> <!-- Кнопка для отмены -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

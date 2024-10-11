@@ -2,55 +2,59 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
-from .forms import ProductForm
-from .models import Product
-from django.utils.text import slugify
+from rest_framework import viewsets
+
+from .forms import AnnouncementForm
+from .models import Announcement, Category
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
-from .services import get_product_from_cache
+from .serializers import AnnouncementSerializer, CategorySerializer
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView
 
 
-class ProductsListView(ListView):
-    model = Product
-    template_name = 'products/product_list.html'
+@method_decorator(login_required, name='dispatch')
+class AnnouncementsListView(ListView):
+    model = Announcement
+    template_name = 'products/announcement_list.html'
 
     def get_queryset(self):
-        return get_product_from_cache()
+        return Announcement.objects.filter(published=True)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        products = Product.objects.all()
-        for product in products:
-            current_version = product.versions.filter(is_current=True).first()
-            product.current_version = current_version
-        context['object_list'] = products
+        announcements = self.get_queryset()
+        context['object_list'] = announcements
         return context
 
-class ProductsDetailView(DetailView):
-    model = Product
+
+class AnnouncementDetailView(DetailView):
+    model = Announcement
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-        self.object.views_counter += 1
+        self.object.views_counter += 1  # Увеличение счетчика просмотров
         self.object.save()
         return self.object
 
-class ProductsCreateView(LoginRequiredMixin, CreateView):
-    model = Product
-    form_class = ProductForm
-    success_url = reverse_lazy('products:products_list')
+
+class AnnouncementCreateView(LoginRequiredMixin, CreateView):
+    model = Announcement
+    form_class = AnnouncementForm
+    success_url = reverse_lazy('products:announcements_list')
 
     def form_valid(self, form):
         instance = form.save(commit=False)
-        instance.slug = slugify(instance.name)
         instance.owner = self.request.user
         instance.save()
         return super().form_valid(form)
 
-class ProductsUpdateView(LoginRequiredMixin, UpdateView):
-    model = Product
-    form_class = ProductForm
+
+class AnnouncementUpdateView(LoginRequiredMixin, UpdateView):
+    model = Announcement
+    form_class = AnnouncementForm
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -59,17 +63,19 @@ class ProductsUpdateView(LoginRequiredMixin, UpdateView):
         return obj
 
     def get_success_url(self):
-        return reverse_lazy('products:products_detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('products:announcement_detail', kwargs={'pk': self.object.pk})
 
-class ProductsDeleteView(LoginRequiredMixin, DeleteView):
-    model = Product
-    success_url = reverse_lazy('products:products_list')
+
+class AnnouncementDeleteView(LoginRequiredMixin, DeleteView):
+    model = Announcement
+    success_url = '/announcements/'  # URL для перенаправления после удаления
 
     def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        if obj.owner != self.request.user and not self.request.user.has_perm('app_name.can_change_any_description'):
-            raise PermissionDenied
-        return obj
+        announcement = super().get_object(queryset)
+        if announcement.owner != self.request.user:
+            raise PermissionDenied("У вас нет прав для удаления этого объявления.")
+        return announcement
+
 
 class HomeView(View):
     template_name = 'products/home.html'
@@ -77,8 +83,19 @@ class HomeView(View):
     def get(self, request):
         return render(request, self.template_name)
 
+
 class ContactView(View):
     template_name = 'products/contact.html'
 
     def get(self, request):
         return render(request, self.template_name)
+
+
+class AnnouncementViewSet(viewsets.ModelViewSet):
+    queryset = Announcement.objects.all()
+    serializer_class = AnnouncementSerializer
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer

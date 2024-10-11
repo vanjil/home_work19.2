@@ -40,6 +40,7 @@ python-dotenv==1.0.1
 requests==2.31.0
 rsa==4.9
 six==1.16.0
+stripe
 sqlparse==0.4.4
 stack-data==0.6.3
 traitlets==5.14.2
@@ -47,3 +48,11 @@ typing_extensions==4.11.0
 uritemplate==4.1.1
 urllib3==2.2.0
 wcwidth==0.2.13
+forex-python
+celery
+django-celery-beat
+redis
+drf_yasg
+djangorestframework
+django-cors-headers
+djangorestframework-simplejwt

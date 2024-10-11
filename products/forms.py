@@ -1,28 +1,27 @@
 from django import forms
-from .models import Product
+from .models import Announcement
 from .mixins import CrispyFormMixin
 
-class ProductForm(CrispyFormMixin, forms.ModelForm):
+class AnnouncementForm(CrispyFormMixin, forms.ModelForm):
     class Meta:
-        model = Product
-        exclude = ('views_counter',)  # Или используйте fields, если хотите явно указать поля
+        model = Announcement
+        exclude = ('views_counter',)
         widgets = {
             'available': forms.widgets.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Примените дополнительные стили или настройки, если необходимо
 
-    def clean_name(self):
-        name = self.cleaned_data.get('name')
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
         prohibited_words = [
             'казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар'
         ]
         for word in prohibited_words:
-            if word in name.lower():
+            if word in title.lower():
                 raise forms.ValidationError(f"Название не должно содержать запрещенные слова: {word}")
-        return name
+        return title
 
     def clean_description(self):
         description = self.cleaned_data.get('description')

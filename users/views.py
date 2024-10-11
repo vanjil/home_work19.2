@@ -15,7 +15,8 @@ from users.form import UserRegisterForm
 from users.models import User
 
 from config.settings import EMAIL_HOST_USER
-
+from rest_framework import viewsets
+from .serializers import UserSerializer
 
 class UserCreateView(CreateView):
     model = User
@@ -65,3 +66,7 @@ class PasswordResetView(View):
             )
             return redirect(reverse('users:login'))
         return render(request, 'password_reset.html', {'error': 'Пользователь с таким email не найден.'})
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

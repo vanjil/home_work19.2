@@ -1,0 +1,40 @@
+{% extends 'products/base.html' %}
+{% load crispy_forms_tags %}
+{% load my_tags %}
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for announcement in object_list %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img src="{{ announcement.photo | media_filter }}" alt="{{ announcement.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ announcement.title }}</h5>
+                        {% if announcement.current_version %}
+                            <p class="card-text">Текущая версия: {{ announcement.current_version.version_name }} ({{ announcement.current_version.version_number }})</p>
+                        {% endif %}
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a class="btn btn-primary rounded me-2" href="{% url 'products:announcement_detail' announcement.pk %}" role="button">Посмотреть</a>
+
+                                {% if user.is_authenticated %}
+                                    <!-- Проверяем, является ли текущий пользователь владельцем объявления -->
+                                    {% if announcement.owner == user %}
+                                        <a class="btn btn-primary rounded me-2" href="{% url 'products:announcement_update' announcement.pk %}" role="button">Редактировать</a>
+                                        <a class="btn btn-danger rounded" href="{% url 'products:announcement_delete' announcement.pk %}" role="button">Удалить</a>
+                                    {% endif %}
+                                {% else %}
+                                    <p class="text-danger">Для просмотра контактной информации зарегистрируйтесь или войдите в систему.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
