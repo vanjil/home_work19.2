@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
 from rest_framework import viewsets
 
@@ -15,8 +15,9 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 
 
-@method_decorator(login_required, name='dispatch')
-class AnnouncementsListView(ListView):
+#@method_decorator(login_required, name='dispatch')
+
+class AnnouncementsListView(ListView,LoginRequiredMixin):
     model = Announcement
     template_name = 'products/announcement_list.html'
 
@@ -44,6 +45,7 @@ class AnnouncementCreateView(LoginRequiredMixin, CreateView):
     model = Announcement
     form_class = AnnouncementForm
     success_url = reverse_lazy('products:announcements_list')
+    login_url = reverse_lazy('users:login')
 
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -52,11 +54,11 @@ class AnnouncementCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class AnnouncementUpdateView(LoginRequiredMixin, UpdateView):
+class AnnouncementUpdateView(UpdateView,LoginRequiredMixin):
     model = Announcement
     form_class = AnnouncementForm
 
-    def get_object(self, queryset=None):
+    def get_object(self, queryset=None): #позволяет авторизованным пользователям обновлять свои объявления
         obj = super().get_object(queryset)
         if obj.owner != self.request.user and not self.request.user.has_perm('app_name.can_change_any_description'):
             raise PermissionDenied
@@ -66,7 +68,7 @@ class AnnouncementUpdateView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('products:announcement_detail', kwargs={'pk': self.object.pk})
 
 
-class AnnouncementDeleteView(LoginRequiredMixin, DeleteView):
+class AnnouncementDeleteView(DeleteView, LoginRequiredMixin ):
     model = Announcement
     success_url = '/announcements/'  # URL для перенаправления после удаления
 
@@ -93,9 +95,9 @@ class ContactView(View):
 
 class AnnouncementViewSet(viewsets.ModelViewSet):
     queryset = Announcement.objects.all()
-    serializer_class = AnnouncementSerializer
+    serializer_class = AnnouncementSerializer # выполнение CRUD операций
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    serializer_class = CategorySerializer # выполнение CRUD операций

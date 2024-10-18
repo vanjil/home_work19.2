@@ -13,7 +13,7 @@ class Category(models.Model):
 class Announcement(models.Model):
     title = models.CharField(max_length=100, verbose_name="Название")
     description = models.TextField(verbose_name="Описание")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория")  # Категория
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория",null=True, blank=True)  # Категория
     year = models.IntegerField(null=True, blank=True, verbose_name="Год выпуска")  # Добавлено поле для года выпуска
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="Цена")  # Цена (опционально)
     location = models.CharField(max_length=100, null=True, blank=True, verbose_name="Местоположение")  # Местоположение

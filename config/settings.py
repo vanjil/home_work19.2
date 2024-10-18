@@ -2,8 +2,6 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-
-
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,14 +20,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'products',
-    'crispy_forms',
+    'crispy_forms', # для работы в bootstrap
     'blog',
     'users',
-    'django_celery_beat',
-    'drf_yasg',
+    'django_celery_beat', #для периодических задач
+    'drf_yasg', #для создания API и документации
     "django_filters",
     'rest_framework',
-    'corsheaders'
+    'corsheaders' #для управления CORS
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
@@ -55,6 +53,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'products', 'templates'),
+            os.path.join(BASE_DIR, 'users', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -73,11 +72,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('NAME'),
+        'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('HOST'),
-        'PORT': os.getenv('PORT')
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT')
     }
 }
 

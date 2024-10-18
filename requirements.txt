@@ -56,3 +56,5 @@ drf_yasg
 djangorestframework
 django-cors-headers
 djangorestframework-simplejwt
+django-crispy-forms
+setuptools

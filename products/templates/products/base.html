@@ -127,7 +127,11 @@
                 <h1 class="fw-light">Открытое небо</h1>
                 <p class="lead text-body-secondary">Сайт с объявлениями о воздушном транспорте</p>
                 <p>
-                    <a class="btn btn-primary" href="{% url 'products:announcement_create'%}" role="button">Добавить объявление</a>
+                    {% if user.is_authenticated %}
+                        <a class="btn btn-primary" href="{% url 'products:announcement_create' %}" role="button">Добавить объявление</a>
+                    {% else %}
+                        <p>Чтобы добавить объявление, необходимо <a href="{% url 'users:login' %}">войти</a> или <a href="{% url 'users:register' %}">зарегистрироваться</a>.</p>
+                    {% endif %}
                     <a class="btn btn-primary" href="{% url 'products:home' %}" role="button">Блог</a>
                 </p>
             </div>

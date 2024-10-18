@@ -7,12 +7,12 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <div class="col">
                 <div class="card shadow-sm">
-                    <img src="{{ announcement.photo | media_filter }}"> <!-- Изменено на announcement -->
+                    <img src="{{ announcement.photo | media_filter }}">
                     <div class="card-body">
-                        <h5 class="card-title">Название: {{ object.title }}</h5> <!-- Изменено на title -->
+                        <h5 class="card-title">Название: {{ object.title }}</h5>
                         <h5 class="card-title">Цена: ${{ object.price }}</h5>
                         <h5 class="card-title">Год выпуска: {{ object.year }}</h5>
-                        <p class="card-text">{{ announcement.description | truncatechars:100 }}</p> <!-- Изменено на announcement -->
+                        <p class="card-text">{{ announcement.description | truncatechars:100 }}</p>
 
                         <!-- Добавляем проверку на аутентификацию -->
                         {% if user.is_authenticated %}
@@ -23,10 +23,10 @@
 
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <a class="btn btn-primary rounded me-2" href="{% url 'products:announcement_list' %}" role="button">Назад</a> <!-- Изменено на announcement_list -->
+                                <a class="btn btn-primary rounded me-2" href="{% url 'products:announcement_list' %}" role="button">Назад</a>
                                 {% if announcement.owner == user or perms.app_name.can_change_any_description %}
-                                    <a class="btn btn-primary rounded me-2" href="{% url 'products:announcement_update' announcement.pk %}" role="button">Редактировать</a> <!-- Изменено на announcement_update -->
-                                    <a class="btn btn-danger rounded" href="{% url 'products:announcement_delete' announcement.pk %}" role="button">Удалить</a> <!-- Оставлен без отступа -->
+                                    <a class="btn btn-primary rounded me-2" href="{% url 'products:announcement_update' announcement.pk %}" role="button">Редактировать</a>
+                                    <a class="btn btn-danger rounded" href="{% url 'products:announcement_delete' announcement.pk %}" role="button">Удалить</a> <
                                 {% endif %}
                             </div>
                         </div>

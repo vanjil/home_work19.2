@@ -24,11 +24,13 @@ class UserCreateView(CreateView):
     success_url = reverse_lazy('users:login')
 
     def form_valid(self, form):
-        user = form.save()
-        user.is_active = False
-        token = secrets.token_hex(16)
-        user.token = token
+        user = form.save(commit=False)
+        user.is_active = False  # Делаем пользователя неактивным до подтверждения почты
+        token = secrets.token_hex(16)  # Генерируем токен для подтверждения
+        user.token = token  # Сохраняем токен в пользовательской модели
         user.save()
+
+        # Отправка письма с подтверждением
         host = self.request.get_host()
         url = f'http://{host}/users/email-confirm/{token}/'
         send_mail(

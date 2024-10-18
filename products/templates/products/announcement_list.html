@@ -23,10 +23,9 @@
                                     <!-- Проверяем, является ли текущий пользователь владельцем объявления -->
                                     {% if announcement.owner == user %}
                                         <a class="btn btn-primary rounded me-2" href="{% url 'products:announcement_update' announcement.pk %}" role="button">Редактировать</a>
-                                        <a class="btn btn-danger rounded" href="{% url 'products:announcement_delete' announcement.pk %}" role="button">Удалить</a>
+                                        <a class="btn btn-primary rounded" href="{% url 'products:announcement_delete' announcement.pk %}" role="button">Удалить</a>
                                     {% endif %}
                                 {% else %}
-                                    <p class="text-danger">Для просмотра контактной информации зарегистрируйтесь или войдите в систему.</p>
                                 {% endif %}
                             </div>
                         </div>

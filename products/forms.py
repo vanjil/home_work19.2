@@ -5,13 +5,14 @@ from .mixins import CrispyFormMixin
 class AnnouncementForm(CrispyFormMixin, forms.ModelForm):
     class Meta:
         model = Announcement
+        fields = ['title', 'description', 'category', 'year', 'price', 'location', 'contact_info', 'photo']
         exclude = ('views_counter',)
         widgets = {
             'available': forms.widgets.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)#переопределиние инициализации , возможность добавить функцию в будущем
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
